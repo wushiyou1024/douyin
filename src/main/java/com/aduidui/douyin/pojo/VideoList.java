@@ -18,6 +18,6 @@ public class VideoList{
     private Integer comment_count;
     private String is_favorite;
     private String title;
-    private int author_id;
+    private Long author_id;
 
 }

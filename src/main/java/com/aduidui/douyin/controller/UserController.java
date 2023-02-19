@@ -54,6 +54,18 @@ public class UserController {
         user.setToken(token);
         userService.save(user);
 
+        UserDetail userDetail = new UserDetail();
+        userDetail.setWork_count(0);
+        userDetail.setFavorite_count(0);
+        userDetail.setAvatar("http://192.168.123.184:8080/img/iu.jpeg");
+        userDetail.setBackground_image("http://192.168.123.184:8080/img/iu.jpeg");
+        userDetail.setFollow_count(0);
+        userDetail.setFollower_count(0);
+        userDetail.setName("新用户");
+        userDetail.setSignature("谢谢你的关注");
+        userDetail.setTotal_favorited(null);
+        userDetail.setUser_id(user.getId());
+        detailService.save(userDetail);
         userMsg.setStatus_code(0);
         userMsg.setStatus_msg(null);
         userMsg.setUser_id(user.getId());
@@ -84,7 +96,9 @@ public class UserController {
         DetailMsg detailMsg = new DetailMsg();
         if (user.getToken().equals(token)) {
             detailMsg.setStatus_code(0);
-            UserDetail detail = detailService.getById(user_id);
+            LambdaQueryWrapper<UserDetail> queryWrapper = new LambdaQueryWrapper<>();
+            queryWrapper.eq(UserDetail::getUser_id, user_id);
+            UserDetail detail = detailService.getOne(queryWrapper);
             detailMsg.setUser(detail);
         }
 

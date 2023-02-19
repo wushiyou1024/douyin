@@ -44,6 +44,7 @@ public class VideoController {
                     VideoListDTO videoListDTO = new VideoListDTO();
                     BeanUtils.copyProperties(item, videoListDTO, "author");
                     UserDetail userDetail = userDetailService.getById(item.getAuthor_id());
+                    videoListDTO.setPlay_url("http://192.168.123.184:8080/douyin/download?name="+videoListDTO.getPlay_url());
                     videoListDTO.setAuthor(userDetail);
                     return videoListDTO;
                 }

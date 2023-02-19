@@ -1,6 +1,10 @@
 server:
   port: 8080
 spring:
+
+  servlet:
+    multipart:
+      maxFileSize: 5MB
   application:
     name: douyin
   datasource:
@@ -19,3 +23,7 @@ mybatis-plus:
   global-config:
     db-config:
       id-type: ASSIGN_ID
+
+reggie:
+  path: D:/tmp/douyin/
+

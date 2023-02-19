@@ -22,5 +22,5 @@ public class UserDetail {
  private String total_favorited;
  private Integer  work_count;
  private Integer favorite_count;
-
+ private Long user_id;
 }
