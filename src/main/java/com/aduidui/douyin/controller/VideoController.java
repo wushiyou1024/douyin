@@ -1,21 +1,18 @@
 package com.aduidui.douyin.controller;
 
-import com.aduidui.douyin.pojo.UserDetail;
-import com.aduidui.douyin.pojo.Video;
-import com.aduidui.douyin.pojo.VideoList;
-import com.aduidui.douyin.pojo.VideoListDTO;
+import com.aduidui.douyin.pojo.*;
+import com.aduidui.douyin.service.FavoriteService;
 import com.aduidui.douyin.service.UserDetailService;
+import com.aduidui.douyin.service.UserService;
 import com.aduidui.douyin.service.VideoListService;
-import org.springframework.beans.BeanUtils;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.sun.prism.impl.BaseContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.annotation.Resource;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * @author Bless_Wu
@@ -28,29 +25,30 @@ public class VideoController {
 
     @Autowired
     private VideoListService videoListService;
-
+    @Autowired
+    private UserService userService;
     @Autowired
     private UserDetailService userDetailService;
+    @Autowired
+    private FavoriteService favoriteService;
 
     @GetMapping("/feed")
-    public Video feed() {
+    public Video feed(String token, String latest_time) {
+        System.out.println(token);
         Video video = new Video();
         video.setStatus_code(0);
         video.setStatus_msg("这是测试");
         video.setNext_time(null);
         List<VideoList> videoLists = videoListService.list();
-        List<VideoListDTO> videoListDTOS = videoLists.stream().map(
-                (item) -> {
-                    VideoListDTO videoListDTO = new VideoListDTO();
-                    BeanUtils.copyProperties(item, videoListDTO, "author");
-                    UserDetail userDetail = userDetailService.getById(item.getAuthor_id());
-                    videoListDTO.setPlay_url("http://192.168.123.184:8080/douyin/download?name="+videoListDTO.getPlay_url());
-                    videoListDTO.setAuthor(userDetail);
-                    return videoListDTO;
-                }
-        ).collect(Collectors.toList());
-
-
+        List<VideoListDTO> videoListDTOS = null;
+        if (token == null || token.equals("")) {
+            videoListDTOS = videoListService.getVideoList(videoLists, null);
+        }else {
+            LambdaQueryWrapper<User> queryWrapper=new LambdaQueryWrapper<>();
+            queryWrapper.eq(User::getToken,token);
+            User user = userService.getOne(queryWrapper);
+            videoListDTOS = videoListService.getVideoList(videoLists, user.getId().toString());
+        }
         video.setVideo_list(videoListDTOS);
         return video;
     }

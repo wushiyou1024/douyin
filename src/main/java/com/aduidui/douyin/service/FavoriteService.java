@@ -1,5 +1,6 @@
 package com.aduidui.douyin.service;
 
+import com.aduidui.douyin.pojo.Favorite;
 import com.aduidui.douyin.pojo.VideoList;
 import com.aduidui.douyin.pojo.VideoListDTO;
 import com.baomidou.mybatisplus.extension.service.IService;
@@ -9,9 +10,8 @@ import java.util.List;
 /**
  * @author Bless_Wu
  * @Description
- * @create 2023-02-17 20:54
+ * @create 2023-02-20 17:28
  */
-public interface VideoListService extends IService<VideoList> {
-    List<VideoListDTO> getVideoList(List<VideoList> videoLists,String user_id);
+public interface FavoriteService extends IService<Favorite> {
 
 }

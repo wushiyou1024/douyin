@@ -6,11 +6,9 @@ import com.aduidui.douyin.pojo.UserDetail;
 import com.aduidui.douyin.pojo.UserMsg;
 import com.aduidui.douyin.service.UserDetailService;
 import com.aduidui.douyin.service.UserService;
-import com.alibaba.druid.sql.visitor.functions.Now;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import org.apache.tomcat.jni.Time;
+import com.sun.prism.impl.BaseContext;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Timer;
 
 /**
  * @author Bless_Wu
@@ -69,6 +66,7 @@ public class UserController {
         userMsg.setStatus_code(0);
         userMsg.setStatus_msg(null);
         userMsg.setUser_id(user.getId());
+
         userMsg.setToken(token);
         return userMsg;
     }
@@ -87,6 +85,7 @@ public class UserController {
         userMsg.setUser_id(user.getId());
         userMsg.setToken(user.getToken());
         userMsg.setStatus_code(0);
+
         return userMsg;
     }
 
